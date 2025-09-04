@@ -1,0 +1,12 @@
+*{
+    font-family: "Poppins", sans-serif;
+    max-width: 1920px;
+}
+body{
+    margin: 0 auto;
+}
+
+/* siliguri */
+.font-bangla{
+  font-family: "Hind Siliguri", sans-serif;
+}
