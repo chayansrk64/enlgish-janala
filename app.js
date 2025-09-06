@@ -4,6 +4,9 @@ const lessonsBtn = document.querySelector('#lessons-btn');
 const wordCntainer = document.querySelector('#word-container');
 
 
+// create HTML element for word synonyms
+
+
 // load lessons
 const loadLessons = () => {
     const url = 'https://openapi.programming-hero.com/api/levels/all'
@@ -72,9 +75,7 @@ const displayWordDetails = (word) => {
         </div>
         <div>
           <h4>সমার্থক শব্দ গুলো</h4>
-          <span>Enthusiastic</span>
-          <span>excited</span>
-          <span>keen</span>
+            synonyms =========
         </div>
         `
     document.getElementById('word_modal').showModal();
