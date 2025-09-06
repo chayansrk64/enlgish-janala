@@ -33,6 +33,54 @@ const loadLevelWord = (id) => {
     })
 }
 
+// load word details
+const loadWordDetails = async(id) => {
+    const url = `https://openapi.programming-hero.com/api/word/${id}`;
+    const res = await fetch(url);
+    const details = await res.json();
+    displayWordDetails(details.data);
+}
+
+// {
+//     "word": "Grateful",
+//     "meaning": "কৃতজ্ঞ",
+//     "pronunciation": "গ্রেটফুল",
+//     "level": 3,
+//     "sentence": "I am grateful for your help.",
+//     "points": 3,
+//     "partsOfSpeech": "adjective",
+//     "synonyms": [
+//         "thankful",
+//         "appreciative",
+//         "obliged"
+//     ],
+//     "id": 7
+// }
+
+const displayWordDetails = (word) => {
+    console.log(word);
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.innerHTML = `
+    <h3 class="text-2xl font-bold">${word.word} <i class="fa-solid fa-microphone-lines"></i> :${word.pronunciation}</h3>
+        <div>
+          <h4>${word.word}</h4>
+          <p>${word.meaning}</p>
+        </div>
+        <div>
+          <h4>Example</h4>
+          <p>${word.sentence}</p>
+        </div>
+        <div>
+          <h4>সমার্থক শব্দ গুলো</h4>
+          <span>Enthusiastic</span>
+          <span>excited</span>
+          <span>keen</span>
+        </div>
+        `
+    document.getElementById('word_modal').showModal();
+
+}
+
 
 // display level words
 const displayLevelWords = (words) => {
@@ -58,7 +106,7 @@ const displayLevelWords = (words) => {
             <p class="">Meaning/Pronounciation</p>
             <p class="text-2xl font-bangla">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "pronounciation নেই"}</p>
             <div class="flex justify-between items-center">
-                <button class="btn bg-[#1A91FF10]"><i class="fa-solid fa-circle-info"></i></button>
+                <button onclick="loadWordDetails(${word.id})" class="btn bg-[#1A91FF10]"><i class="fa-solid fa-circle-info"></i></button>
                 <button class="btn bg-[#1A91FF10]"><i class="fa-solid fa-volume-high"></i></button>
             </div>
         </div>
