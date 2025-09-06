@@ -3,6 +3,14 @@ const levelContainer = document.querySelector('#level-container');
 const lessonsBtn = document.querySelector('#lessons-btn');
 const wordCntainer = document.querySelector('#word-container');
 
+// speak words
+
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
+
 
 // create HTML element for word synonyms
 const createHTMLElements = (arr) => {
@@ -125,7 +133,7 @@ const displayLevelWords = (words) => {
             <p class="text-2xl font-bangla">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "pronounciation নেই"}</p>
             <div class="flex justify-between items-center">
                 <button onclick="loadWordDetails(${word.id})" class="btn bg-[#1A91FF10]"><i class="fa-solid fa-circle-info"></i></button>
-                <button class="btn bg-[#1A91FF10]"><i class="fa-solid fa-volume-high"></i></button>
+                <button onclick="pronounceWord('${word.word}')" class="btn bg-[#1A91FF10]"><i class="fa-solid fa-volume-high"></i></button>
             </div>
         </div>
         `
@@ -150,4 +158,24 @@ const displayLesson = (lessons) => {
 
 
 
-loadLessons()
+loadLessons();
+
+
+
+
+
+// btn-search
+document.getElementById('btn-search').addEventListener('click', () => {
+    const input = document.getElementById('input-search');
+    const searchValue = input.value.trim().toLowerCase();
+     
+    fetch("https://openapi.programming-hero.com/api/words/all")
+        .then(res => res.json())
+        .then(data => {
+            const allWords = data.data;
+            const filterWords = allWords.filter(word => word.word.toLowerCase().includes(searchValue))
+            // console.log(filterWords);
+            displayLevelWords(filterWords)
+        })
+
+})
