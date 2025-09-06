@@ -5,7 +5,21 @@ const wordCntainer = document.querySelector('#word-container');
 
 
 // create HTML element for word synonyms
+const createHTMLElements = (arr) => {
+    const htmlElements = arr.map(el => `<span class="btn">${el}</span>`)
+    return htmlElements.join(" ");
+}
 
+// spinner 
+const manageSpinner = (status) => {
+    if(status === true){
+        document.getElementById('spinner').classList.remove('hidden')
+        document.getElementById('word-container').classList.add('hidden')
+    }else{
+        document.getElementById('spinner').classList.add('hidden')
+        document.getElementById('word-container').classList.remove('hidden')
+    }
+}
 
 // load lessons
 const loadLessons = () => {
@@ -22,6 +36,8 @@ const removeActiveClass = () => {
 
 // load words
 const loadLevelWord = (id) => {
+    manageSpinner(true);
+
     const url = `https://openapi.programming-hero.com/api/level/${id}`
     fetch(url)
     .then(res => res.json())
@@ -75,7 +91,7 @@ const displayWordDetails = (word) => {
         </div>
         <div>
           <h4>সমার্থক শব্দ গুলো</h4>
-            synonyms =========
+            <div>${createHTMLElements(word.synonyms)}</div>
         </div>
         `
     document.getElementById('word_modal').showModal();
@@ -96,6 +112,7 @@ const displayLevelWords = (words) => {
             <h2 class="font-bold text-4xl">নেক্সট Lesson এ যান।</h2>
          </div>
         `
+        manageSpinner(false);
         return;
     }
 
@@ -114,6 +131,8 @@ const displayLevelWords = (words) => {
         `
         wordCntainer.appendChild(card)
      })
+
+     manageSpinner(false);
 }
 
 
